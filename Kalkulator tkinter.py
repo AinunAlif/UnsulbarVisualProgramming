@@ -1,54 +1,88 @@
-from functools import partial
-import tkinter as tk
+from tkinter import*
 
-class applikasiKalkulator(tk.Tk):
-    def __init__(self):
-        tk.Tk.__init__(self)
-        self.title("Kalkulator tkinter")
-        self.membuatTombol()
-        self.penentu = False
+def btnClick(numbers):
+    global operator
+    operator=operator + str(numbers)
+    text_Input.set(operator)
 
-    def membuatTombol(self):
-        self.layar = tk.Entry(self, width=25)
-        self.layar.grid(row=0, column=0, columnspan=5)
+def btnClearDisplay():
+    global operator
+    operator=""
+    text_Input.set("")
 
-        btn_list = [
-            '1', '2', '3',
-            '4', '5', '6',
-            '7', '8', '9',
-            '0', '+', '-',
-            'C', '/', '*',
-            '='
-        ]
-        baris = 1
-        kolom = 0
-        for penampung in btn_list:
-            perintah = partial(self.hitung, penampung)
-            if penampung == '=':
-                tk.Button(self, text='=', width=22, command=perintah).grid(row=baris, column=kolom, columnspan=5)
-            else :
-                tk.Button(self, text=penampung, width=5, command=perintah).grid(row=baris, column=kolom)
-            kolom += 1
-            if kolom > 2:
-                kolom = 0
-                baris += 1
 
-    def hitung(self, key):
-        if key == '=':
-            self.penentu = True
-            try:
-                result = eval(self.layar.get())
-                self.layar.delete(0, tk.END)
-                self.layar.insert(tk.END, str(result))
-            except:
-                self.layar.insert(tk.END, "-> Error!")
-        elif key == 'C':
-            self.layar.delete(0, tk.END)
-        else:
-            if self.penentu :
-                self.layar.delete(0, tk.END)
-                self.penentu = False
-            self.layar.insert(tk.END, key)
+def btnEqualsInput():
+    global operator
+    sumup=str(eval(operator))
+    text_Input.set(sumup)
+    operator=""
 
-panggil = applikasiKalkulator()
-panggil.mainloop()
+
+
+cal =Tk()
+cal.title("Kalkulator Tkinter")
+operator=""
+text_Input =StringVar()
+
+txtDisplay =Entry(cal,font=('arial', 20,'bold'), textvariable=text_Input, bd=30, insertwidth=4,
+                  bg="powder blue", justify='right').grid(columnspan=4)
+
+
+btn7=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="7",  bg="powder blue",command=lambda:btnClick(7)).grid(row=1, column=0)
+            
+btn8=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="8",  bg="powder blue",command=lambda:btnClick(8)).grid(row=1, column=1)
+
+btn9=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="9",  bg="powder blue",command=lambda:btnClick(9)).grid(row=1, column=2)
+
+Addition=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="+",  bg="powder blue",command=lambda:btnClick("+")).grid(row=1, column=3)
+#=========================================================================
+
+btn4=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="4",  bg="powder blue",command=lambda:btnClick(4)).grid(row=2, column=0)
+            
+btn5=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="5",  bg="powder blue",command=lambda:btnClick(5)).grid(row=2, column=1)
+
+btn6=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="6",  bg="powder blue",command=lambda:btnClick(6)).grid(row=2, column=2)
+
+Addition=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="-",  bg="powder blue",command=lambda:btnClick("-")).grid(row=2, column=3)
+
+#=========================================================================
+
+btn1=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="1",  bg="powder blue",command=lambda:btnClick(1)).grid(row=3, column=0)
+            
+btn2=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="2",  bg="powder blue",command=lambda:btnClick(2)).grid(row=3, column=1)
+
+btn3=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="3",  bg="powder blue",command=lambda:btnClick(3)).grid(row=3, column=2)
+
+Multiply=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="*",  bg="powder blue",command=lambda:btnClick("*")).grid(row=3, column=3)
+
+#=========================================================================
+
+btn0=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="0",  bg="powder blue",command=lambda:btnClick(0)).grid(row=4, column=0)
+            
+btnClear=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="C",  bg="powder blue", command=btnClearDisplay).grid(row=4, column=1)
+
+btnEquals=Button(cal, padx=16,pady=16, bd=8, fg="black", font=('arial', 20,'bold'),
+            text="=",  bg="powder blue",command=btnEqualsInput).grid(row=4, column=2)
+
+Division=Button(cal, padx=16, pady=16,bd=8, fg="black", font=('arial', 20,'bold'),
+            text="/",  bg="powder blue",command=lambda:btnClick("/")).grid(row=4, column=3)
+
+
+
+
+
+cal.mainloop()
